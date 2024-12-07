@@ -2,8 +2,8 @@ install.packages("tidyverse") # Install if not already installed
 library(tidyverse)
 
 # Read data files
-data_sample <- read_delim("C:/Users/wagne/Documents/UNI/MÀSTER/Q3/IB/PROJECTE/data_clinical_sample.txt", delim = "\t", skip = 4, show_col_types = FALSE)
-data_patient <- read_delim("C:/Users/wagne/Documents/UNI/MÀSTER/Q3/IB/PROJECTE/data_clinical_patient.txt", delim = "\t", skip = 4, show_col_types = FALSE)
+data_sample <- read_delim("data_clinical_sample.txt", delim = "\t", skip = 4, show_col_types = FALSE)
+data_patient <- read_delim("data_clinical_patient.txt", delim = "\t", skip = 4, show_col_types = FALSE)
 
 colnames(data_sample)
 colnames(data_patient)
