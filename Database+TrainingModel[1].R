@@ -8,8 +8,8 @@ library(ggcorrplot)
 library(plumber)
 
 # Read the data files
-data_sample <- read_delim("C:/Users/wagne/Documents/UNI/MÀSTER/Q3/IB/PROJECTE/data_clinical_sample.txt", delim = "\t", skip = 4, show_col_types = FALSE)
-data_patient <- read_delim("C:/Users/wagne/Documents/UNI/MÀSTER/Q3/IB/PROJECTE/data_clinical_patient.txt", delim = "\t", skip = 4, show_col_types = FALSE)
+data_sample <- read_delim("data_clinical_sample.txt", delim = "\t", skip = 4, show_col_types = FALSE)
+data_patient <- read_delim("data_clinical_patient.txt", delim = "\t", skip = 4, show_col_types = FALSE)
 
 colnames(data_sample)
 colnames(data_patient)
@@ -39,14 +39,30 @@ merged_data$BRCA_GENE <- ifelse(grepl("BRCA", merged_data$BRCA_GENE), 1, 0)
 merged_data$INFERRED_MENOPAUSAL_STATE <- ifelse(merged_data$AGE > 50, 1, 0)
 merged_data$HORMONE_THERAPY <- ifelse(merged_data$HORMONE_THERAPY == "YES", 1, 0)
 
+min_age <- min(merged_data$AGE, na.rm = TRUE)
+max_age <- max(merged_data$AGE, na.rm = TRUE)
+min_age
+max_age
 # Create synthetic healthy data with adjusted BRCA mutation prevalence
 set.seed(123)  # Ensure reproducibility
 num_healthy <- 2500  # Total number of healthy individuals to generate
 
+age_distribution <- function(n) {
+  # Define a hypothetical age distribution resembling the UK population
+  age_bins <- c(20, 30, 40, 50, 60, 70, 80, 90, 100)
+  probabilities <- c(0.167, 0.159, 0.166, 0.148, 0.138, 0.126, 0.072, 0.023, 0.001) # Adjust as needed
+  sample(
+    x = seq(20, 100, by = 1),
+    size = n,
+    prob = approx(x = age_bins, y = probabilities, xout = seq(20, 100))$y,
+    replace = TRUE
+  )
+}
+
 healthy_data <- data.frame(
   ID = seq(1, num_healthy),
   BRCA_GENE = c(rep(1, floor(0.003 * num_healthy)), rep(0, num_healthy - floor(0.003 * num_healthy))), # Simulate 5.2% BRCA prevalence
-  AGE = sample(20:100, num_healthy, replace = TRUE),
+  AGE = age_distribution(num_healthy),
   HORMONE_THERAPY = sample(c(1, 0), num_healthy, replace = TRUE), # Simulate binary response
   INFERRED_MENOPAUSAL_STATE = ifelse(sample(20:100, num_healthy, replace = TRUE) > 50, 1, 0) # Postmenopausal state
 )
