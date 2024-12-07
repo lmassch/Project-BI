@@ -50,7 +50,7 @@ num_healthy <- 2500  # Total number of healthy individuals to generate
 age_distribution <- function(n) {
   # Define a hypothetical age distribution resembling the UK population
   age_bins <- c(20, 30, 40, 50, 60, 70, 80, 90, 100)
-  probabilities <- c(0.167, 0.159, 0.166, 0.148, 0.138, 0.126, 0.072, 0.023, 0.001) # Adjust as needed
+  probabilities <- c(0.172, 0.166, 0.187, 0.160, 0.143, 0.097, 0.060, 0.014, 0.001) # Adjust as needed
   sample(
     x = seq(20, 100, by = 1),
     size = n,
