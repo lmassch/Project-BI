@@ -19,7 +19,11 @@ library(tidyverse)
 model <- readRDS("C:/Users/wagne/Documents/UNI/MÀSTER/Q3/IB/PROJECTE/logistic_model.rds")
 model_data <- read_csv("C:/Users/wagne/Documents/UNI/MÀSTER/Q3/IB/PROJECTE/shuffled_combined_data.csv")  
 
-function(req, res, BRCA_GENE, AGE, INFERRED_MENOPAUSAL_STATE, HORMONE_THERAPY) {
+# Create a new plumber router
+pr <- plumber::plumber$new()
+
+
+pr$handle("POST", "/predict", function(req, BRCA_GENE, AGE, INFERRED_MENOPAUSAL_STATE, HORMONE_THERAPY) {
 
   if (any(is.na(c(BRCA_GENE, AGE, INFERRED_MENOPAUSAL_STATE, HORMONE_THERAPY)))) {
     res$status <- 400
@@ -47,7 +51,7 @@ function(req, res, BRCA_GENE, AGE, INFERRED_MENOPAUSAL_STATE, HORMONE_THERAPY) {
 }
 
 # Inicia el servidor
-pr <- plumb( "C:/Users/wagne/Documents/UNI/MÀSTER/Q3/IB/PROJECTE/api.R")
+
 pr$run(port = 8000)
 
 
