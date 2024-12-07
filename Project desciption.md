@@ -39,7 +39,7 @@ With these selected features, a new cancer dataset was created, which contained 
 
 To create a control group, a synthetic dataset was generated in R with similar features. The control dataset was designed to reflect the distribution of the general UK female population in 2012. Key characteristics included:
 * Patient ID: unique identifier for each patient 
-*	Age: numerical value, randomly sampled with a distribution resembling the UK female population, constrained by the minimum and maximum ages in the cancer dataset
+*	Age: numerical value, randomly sampled with a distribution resembling the UK female population between 20 and 100 [8].
 *	Inferred menopausal state: categorical value (pre or post). Set to pre for patients under 50 and post for those over 50.
 *	Hormone therapy: categorical value (yes or no). Randomly assigned yes or no.
 *	BRCA gene: categorical value (0 or 1). Randomly assigned based on population prevalence.
@@ -67,4 +67,7 @@ The code to develop the API can be found in api.R
 [6] https://www.nejm.org/doi/full/10.1056/NEJM200102223440801 
 
 [7] https://www.cbioportal.org/study/summary?id=brca_metabric 
+
+[8] https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationprojections/bulletins/nationalpopulationprojections/2013-11-06
+
 
