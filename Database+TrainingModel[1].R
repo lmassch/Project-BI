@@ -41,8 +41,7 @@ merged_data$HORMONE_THERAPY <- ifelse(merged_data$HORMONE_THERAPY == "YES", 1, 0
 
 min_age <- min(merged_data$AGE, na.rm = TRUE)
 max_age <- max(merged_data$AGE, na.rm = TRUE)
-min_age
-max_age
+
 # Create synthetic healthy data with adjusted BRCA mutation prevalence
 set.seed(123)  # Ensure reproducibility
 num_healthy <- 2500  # Total number of healthy individuals to generate
@@ -85,8 +84,8 @@ ggplot(shuffled_data, aes(x = AGE, fill = as.factor(CANCER))) +
   geom_histogram(binwidth = 5, position = "identity", alpha = 0.7) +
   labs(title = "Age Distribution by Cancer Status", x = "Age at Diagnosis", y = "Frequency") +
   scale_fill_manual(values = c("skyblue", "orange"), labels = c("Healthy", "Cancer")) +
-  theme_minimal()
-
+  theme_minimal() + theme(legend.position = "top") +
+  scale_x_continuous(breaks = seq(20, 100, by = 10))  
 
 # Generate a correlation matrix for all numerical variables
 cor_matrix <- cor(shuffled_data %>% select(-ID))  # Exclude ID as it's not relevant for correlation
