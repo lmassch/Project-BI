@@ -1,56 +1,56 @@
 # Biomedical Informatics Project
-Group members: Leah Masschelein, 
+Group members: Leah Masschelein, Helena Martínez, Clara Wagner, Gabriel Pino
 
 ## Introduction
-Developing effective tools for understanding and managing complex diseases requires innovative approaches to leverage the wealth of data available in modern healthcare. This project focuses on creating an advanced predictive model to identify risk factors, clinical patterns, and biomarkers linked to breast cancer. By integrating diverse data, genetics and general health information, this model aims to estimate the risk of obtaining breast cancer. An interactive API is developed to allow easy interaction with the model. 
+Developing effective tools for understanding and managing complex diseases requires innovative approaches to leverage the wealth of data available in modern healthcare. This project focuses on creating an advanced predictive model to identify risk factors, clinical patterns, and biomarkers linked to breast cancer. By integrating diverse data -encompassing genetics and general health information-, this model aims to estimate the risk of obtaining breast cancer. Our model is complemented by an interactive API for seamless integration into clinical workflows and a Shiny application to facilitate user-friendly exploration.
 
 ## Phase One
 ### Literature review
-Breast cancer is a complex disease influenced by a variety of risk factors. The primary contributors include gender, age, family history (genetics), and reproductive or hormonal factors [1-3]. Additional considerations such as geography, race, ethnicity, and lifestyle choices may also play a role.
+Breast cancer is a complex disease influenced by a variety of risk factors. The primary contributors include gender, age, family history (genetics), and reproductive or hormonal factors [1-3]. Additional considerations such as geography, race, ethnicity, and lifestyle choices may also play a role:
 * Gender: Less than 1% of the cases of breast cancer are men [1]. 
-* Age: The risk of developing breast cancer increases with age. Before menopause, the risk approximately doubles every decade. However, this rate of increase slows significantly after menopause. [2]
+* Age: The risk of developing breast cancer increases with age, doubling approximately every decade before menopause. However, the increase slows significantly after menopause. [2]
 * Family history: Mutations in certain genes significantly elevate breast cancer risk. The genetics linked to breast cancer are very complex, but BRCA1 and BRCA2 are among the most important genes. Mutations in these genes are present in around 5 % of all breast cancers [4-5], and carry a lifetime risk of 50-85% [6]. 
 * Reproductive and hormonal factors:
     * Age of menopause: A late onset of menopause increases the risk of breast cancer [1-3]
-    * Hormone therapy (HR): Hormone therapy use has been linked to an increased risk of breast cancer in some studies [2-3]
+    * Hormone therapy (HR): The use of hormone therapy has been linked to an increased risk of breast cancer in some studies [2-3]
 
-The risk of breast cancer is also influenced by geography, race and ethnicity. The incidence of breast cancer is higher in developed countries [1-2]. However, due to challenges in gathering comprehensive data from diverse populations, these factors were excluded as variables in this project. Other risk factors can be linked to lifestyle choices, such as smoking and alcohol, although findings are inconsistent and vary between studies [1-3]. 
+Geography and ethnicity also play a role in breast cancer risk. For instance, breast cancer incidence is higher in developed countries [1-2]. However, data collection challenges and inconsistent findings across populations led to their exclusion from this model. Other potential risk factors, such as smoking or alcohol consumption, remain inconclusive and were excluded for similar reasons [1-3]. 
 
 ### Data collection
-The dataset used to train the model is based on the Breast Cancer (METABRIC, Nature 2012 & Nat Commun 2016) dataset [7]. This dataset was originally published in Nature (2012) and expanded in Nature Communications (2016). It provides extensive genomic, transcriptomic, and clinical data from 2509 breast cancer patients. All patients are female and represented by one sample. An important note is that the dataset predominantly comprises patients from the United Kingdom and Canada. 
+The dataset used to train the model is derived from the METABRIC dataset (Nature, 2012 & Nature Communications 2016) [7]. This extensive dataset includes genomic, transcriptomic, and clinical information from 2509 breast cancer patients. All patients are female and represented by one sample. An important note is that the dataset predominantly comprises patients from the United Kingdom and Canada. 
 
-The dataset provides a large number of features, therefore only the relevant features are discussed. Downloading the dataset provides a zipped file with multiple datasets. In this project, ‘data_clinical_patient.txt’ and ‘data_clinical_sample.txt’ are used. These provide following data for the project:
-* Patient ID: unique identifier for each patient
-* Age at diagnosis: age at which the cancer was detected (numeric value)
-* Inferred menopausal state: indicates whether the patient is pre- or post-menopause (categorical value: pre, post and NA)
-    *	Note: patients are classified as post for patients over 50 and pre for patients under 50
-*	Hormone therapy: indicates whether or not the patient receives hormone therapy (categorical value: yes, no and NA)
-*	Oncotree code: classification system for tumor subtypes, providing detailed information on tumor characteristics, including whether the patient has a mutation in one of the BRCA genes (categotical value: BRCA, IDC, MDLC, etc.)
-
-With these selected features, a new cancer dataset was created, which contained following features:
-* Patient ID: unique identifier for each patient 
-*	Age: numerical value, equal to age at diagnosis 
-*	Inferred menopausal state: categorical value (pre or post) 
-    *	The NA values were replaced with … ?
-*	Hormone therapy: categorical value (yes or no)
-    * The NA values were replaced with … ?
-* BRCA gene: categorical value (0 or 1)
-    * The OncoTree Code was used to assign a value of 1 if the patient had a BRCA mutation, and 0 otherwise.
+The dataset provides a large number of features, therefore only the relevant features are discussed. Downloading the dataset provides a zipped file with multiple datasets. In this project, ‘data_clinical_patient.txt’ and ‘data_clinical_sample.txt’ are used. We selected the following data for the project:
+* Patient ID: A unique identifier for each patient
+* Age at diagnosis: Numeric value representing the age when breast cancer was diagnosed.
+* Inferred menopausal state: Categorical value (pre or post). Patients over 50 were classified as postmenopausal, while those under 50 were premenopausal. Missing values were imputed with the mode.
+*	Hormone therapy: Categorical value (yes or no). Missing values were imputed with the mode.
+*	Oncotree code: A classification system for tumor subtypes, which was used to determine whether a patient carried a BRCA mutation. Patients with "BRCA" in their Oncotree code were assigned a BRCA value of 1; others received 0.
 
 To create a control group, a synthetic dataset was generated in R with similar features. The control dataset was designed to reflect the distribution of the general UK female population in 2012. Key characteristics included:
-* Patient ID: unique identifier for each patient 
-*	Age: numerical value, randomly sampled with a distribution resembling the UK female population between 20 and 100 [8].
-*	Inferred menopausal state: categorical value (pre or post). Set to pre for patients under 50 and post for those over 50.
-*	Hormone therapy: categorical value (yes or no). Randomly assigned yes or no.
-*	BRCA gene: categorical value (0 or 1). Randomly assigned based on population prevalence.
-Approximately 0.3% of the healthy control population was assigned a BRCA mutation (source?).
+* Patient ID: Unique identifier for each patient 
+*	Age: Randomly sampled from a distribution resembling the UK female population aged 20–100 [8].
+*	Inferred menopausal state: Categorical (pre or post). Set to post for individuals over 50 and pre otherwise.
+*	Hormone therapy: Randomly assigned yes or no.
+*	BRCA gene:  Assigned based on prevalence. Approximately 0.3% of the healthy population carried a BRCA mutation [9].
 
-The cancer dataset and the healthy control dataset were merged into a single unified dataset for training the model. The Database+TrainingModel.R file contains the complete code used to prepare the datasets and train the model. Details of the model training process are discussed in the subsequent section.
+The processed METABRIC dataset and the synthetic control data were merged into a single unified dataset for training the model. The Database+TrainingModel.R file contains the complete code used to prepare the datasets and train the model. Details of the model training process are discussed in the subsequent section.
 
 ### Model training
-Explanation what the model does: 
+The logistic regression model was designed to predict the likelihood of developing breast cancer using:
+* BRCA mutation status
+* Age
+* Inferred menopausal state
+* Hormone therapy use
 
-### API development
+The model was evaluated based on:
+1. Accuracy: The proportion of correct predictions.
+2. Sensitivity: The ability to correctly identify individuals with cancer.
+3. Specificity: The ability to correctly identify healthy individuals.
+To optimize the model's performance, the decision threshold for classifying an individual as "at risk" was adjusted to 0.7, prioritizing sensitivity to minimize missed diagnoses.
+
+### Shiny and API development
+A Shiny application provides an interactive interface for users to test the model. Users can input patient data (age, menopausal status, etc.) and view real-time predictions. While the API enables integration into broader systems, Shiny serves as a standalone visualization tool for researchers and clinicians.
+The API was implemented using the Plumber package in R. It allows external systems to interact with the predictive model via RESTful endpoints. Users can send patient data (e.g., age, BRCA status) and receive cancer risk predictions. This facilitates integration into electronic health record (EHR) systems or decision-support tools.
 The code to develop the API can be found in api.R
 
 ### References
