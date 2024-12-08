@@ -49,7 +49,8 @@ The model was evaluated based on:
 To optimize the model's performance, the decision threshold for classifying an individual as "at risk" was adjusted to 0.7, prioritizing sensitivity to minimize missed diagnoses.
 
 ### API development
-The API was implemented using the Plumber package in R. It allows external systems to interact with the predictive model via RESTful endpoints. Users can send patient data (e.g., age, BRCA status) and receive cancer risk predictions. This facilitates integration into electronic health record (EHR) systems or decision-support tools.
+The API was implemented using the Plumber package in R. It allows external systems to interact with the predictive model via RESTful endpoints. The purpose of this API is to provide easy access to the model's predictive capabilities and visualization tools. This ensures that users can query the model for breast cancer risk predictions and access relevant visualizations through a simple HTTP interface.
+The endpoints and functionality will be clearly documented using Swagger, allowing users and developers to explore, understand, and test the available endpoints interactively. Therefore, the probability can be predicted based on key risk factors, and it can be also visualized as a function of age.
 The code to develop the API can be found in api.R
 
 ## Phase Two 
