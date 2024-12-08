@@ -48,26 +48,28 @@ The model was evaluated based on:
 3. Specificity: The ability to correctly identify healthy individuals.
 To optimize the model's performance, the decision threshold for classifying an individual as "at risk" was adjusted to 0.7, prioritizing sensitivity to minimize missed diagnoses.
 
-### Shiny and API development
-A Shiny application provides an interactive interface for users to test the model. Users can input patient data (age, menopausal status, etc.) and view real-time predictions. While the API enables integration into broader systems, Shiny serves as a standalone visualization tool for researchers and clinicians.
+### API development
 The API was implemented using the Plumber package in R. It allows external systems to interact with the predictive model via RESTful endpoints. Users can send patient data (e.g., age, BRCA status) and receive cancer risk predictions. This facilitates integration into electronic health record (EHR) systems or decision-support tools.
 The code to develop the API can be found in api.R
 
+## Phase Two 
+### Front-End Development
+A Shiny application provides an interactive interface for users to test the model. Users can input patient data (age, menopausal status, etc.) and view real-time predictions. While the API enables integration into broader systems, Shiny serves as a standalone visualization tool for researchers and clinicians.
+
+
 ### References
-[1] https://www.tandfonline.com/doi/full/10.2147/BCTT.S176070#d1e162
+[1] McPherson, K., Steel, C. M., & Dixon, J. M. (2000). Breast cancer—epidemiology, risk factors, and genetics. BMJ, 321(7261), 624–628. Retrieved from https://research-repository.st-andrews.ac.uk/bitstream/handle/10023/4669/mcpherson2000bmj624.pdf?sequence=1
 
-[2] https://research-repository.st-andrews.ac.uk/bitstream/handle/10023/4669/mcpherson2000bmj624.pdf?sequence=1 
+[2] Breast Cancer Risk in Women. (n.d.). Retrieved from https://www.tandfonline.com/doi/full/10.2147/BCTT.S176070#d1e162
 
-[3] https://pmc.ncbi.nlm.nih.gov/articles/PMC5715522/ 
+[3] Collaborative Group on Hormonal Factors in Breast Cancer. (2012). Menarche, menopause, and breast cancer risk: Individual participant meta-analysis, including 118,964 women with breast cancer and 306,691 women without breast cancer from 117 epidemiological studies. The Lancet Oncology, 13(11), 1141–1151. Retrieved from https://pmc.ncbi.nlm.nih.gov/articles/PMC5715522/
 
-[4] https://www.sciencedirect.com/science/article/abs/pii/S0025619611647307
+[4] Couch, F. J., et al. (1996). BRCA1 mutations in women attending clinics that evaluate the risk of breast cancer. Mayo Clinic Proceedings, 71(9), 897–904. Retrieved from https://www.sciencedirect.com/science/article/abs/pii/S0025619611647307
 
-[5] https://jamanetwork.com/journals/jamaoncology/fullarticle/2618073 
+[5] Kuchenbaecker, K. B., et al. (2017). Risks of breast, ovarian, and contralateral breast cancer for BRCA1 and BRCA2 mutation carriers. JAMA Oncology, 3(1), 19–27. Retrieved from https://jamanetwork.com/journals/jamaoncology/fullarticle/2618073
 
-[6] https://www.nejm.org/doi/full/10.1056/NEJM200102223440801 
+[6] King, M. C., Marks, J. H., & Mandell, J. B. (2001). Breast and ovarian cancer risks due to inherited mutations in BRCA1 and BRCA2. New England Journal of Medicine, 344(5), 279–287. Retrieved from https://www.nejm.org/doi/full/10.1056/NEJM200102223440801
 
-[7] https://www.cbioportal.org/study/summary?id=brca_metabric 
+[7] METABRIC Study: Molecular Taxonomy of Breast Cancer International Consortium. (n.d.). Retrieved from https://www.cbioportal.org/study/summary?id=brca_metabric
 
-[8] https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationprojections/bulletins/nationalpopulationprojections/2013-11-06
-
-
+[8] Office for National Statistics. (2013). National Population Projections, 2012-based Statistical Bulletin. Retrieved from https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationprojections/bulletins/nationalpopulationprojections/2013-11-06
