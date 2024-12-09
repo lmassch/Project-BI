@@ -1,11 +1,13 @@
 # Biomedical Informatics Project
 Group members: Leah Masschelein, Helena Martínez, Clara Wagner, Gabriel Pino
 
-## Introduction
+## Project description
+
+### Introduction
 Developing effective tools for understanding and managing complex diseases requires innovative approaches to leverage the wealth of data available in modern healthcare. This project focuses on creating an advanced predictive model to identify risk factors, clinical patterns, and biomarkers linked to breast cancer. By integrating diverse data -encompassing genetics and general health information-, this model aims to estimate the risk of obtaining breast cancer. Our model is complemented by an interactive API for seamless integration into clinical workflows and a Shiny application to facilitate user-friendly exploration.
 
-## Phase One
-### Literature review
+### Phase One
+#### Literature review
 Breast cancer is a complex disease influenced by a variety of risk factors. The primary contributors include gender, age, family history (genetics), and reproductive or hormonal factors [1-3]. Additional considerations such as geography, race, ethnicity, and lifestyle choices may also play a role:
 * Gender: Less than 1% of the cases of breast cancer are men [1]. 
 * Age: The risk of developing breast cancer increases with age, doubling approximately every decade before menopause. However, the increase slows significantly after menopause. [2]
@@ -16,7 +18,7 @@ Breast cancer is a complex disease influenced by a variety of risk factors. The 
 
 Geography and ethnicity also play a role in breast cancer risk. For instance, breast cancer incidence is higher in developed countries [1-2]. However, data collection challenges and inconsistent findings across populations led to their exclusion from this model. Other potential risk factors, such as smoking or alcohol consumption, remain inconclusive and were excluded for similar reasons [1-3]. 
 
-### Data collection
+#### Data collection
 The dataset used to train the model is derived from the METABRIC dataset (Nature, 2012 & Nature Communications 2016) [7]. This extensive dataset includes genomic, transcriptomic, and clinical information from 2509 breast cancer patients. All patients are female and represented by one sample. An important note is that the dataset predominantly comprises patients from the United Kingdom and Canada. 
 
 The dataset provides a large number of features, therefore only the relevant features are discussed. Downloading the dataset provides a zipped file with multiple datasets. In this project, ‘data_clinical_patient.txt’ and ‘data_clinical_sample.txt’ are used. We selected the following data for the project:
@@ -35,7 +37,7 @@ To create a control group, a synthetic dataset was generated in R with similar f
 
 The processed METABRIC dataset and the synthetic control data were merged into a single unified dataset for training the model. The Database+TrainingModel.R file contains the complete code used to prepare the datasets and train the model. Details of the model training process are discussed in the subsequent section.
 
-### Model training
+#### Model training
 The logistic regression model was designed to predict the likelihood of developing breast cancer using:
 * BRCA mutation status
 * Age
@@ -48,17 +50,31 @@ The model was evaluated based on:
 3. Specificity: The ability to correctly identify healthy individuals.
 To optimize the model's performance, the decision threshold for classifying an individual as "at risk" was adjusted to 0.7, prioritizing sensitivity to minimize missed diagnoses.
 
-### API development
+#### API development
 The API was implemented using the Plumber package in R. It allows external systems to interact with the predictive model via RESTful endpoints. The purpose of this API is to provide easy access to the model's predictive capabilities and visualization tools. This ensures that users can query the model for breast cancer risk predictions and access relevant visualizations through a simple HTTP interface.
 The endpoints and functionality will be clearly documented using Swagger, allowing users and developers to explore, understand, and test the available endpoints interactively. Therefore, the probability can be predicted based on key risk factors, and it can be also visualized as a function of age.
 The code to develop the API can be found in api.R
 
-## Phase Two 
-### Front-End Development
+### Phase Two 
+#### Front-End Development
 A Shiny application provides an interactive interface for users to test the model. Users can input patient data (age, menopausal status, etc.) and view real-time predictions. While the API enables integration into broader systems, Shiny serves as a standalone visualization tool for researchers and clinicians.
 
+## Repositry section
 
-### References
+All files are all in the main folder, which contains:
+* Database+Trainingmodel[1].R: Complete R script used to prepare the datasets and train the model. The dataset in divided in a train and test set within the file.
+* Shiny_BRCA.R: Shiny application to test the predictive model.
+* api.R: R script to run the API for model predictions based on a new patient input.
+* data_clinical_patient.txt: Datafile containing the patient atributes (e.g. age of diagnosis) of the METABRIC dataset, used in _Database+Trainingmodel[1].R_ to build the cancer patient dataset.
+* data_clinical_patient.txt: Datafile containing the sample atributes (e.g. oncotree code) of the METABRIC dataset, used in _Database+Trainingmodel[1].R_ to build the cancer patient dataset.
+* Logistic_model: Logistic regression model predicting the likelihood of developing breast cancer for new patient inputs. The model was generated in  _Database+Trainingmodel[1].R_ and is used as model by the API in _api.R_
+* Shuffled_combined_daat.csv: Datafile with dataset containing shuffled records of healthy controls and cancer patients. The dataset was generated, divided in train and test data and used to train the model in _Database+Trainingmodel[1].R_.
+
+## Practical example
+
+'Text Gabriel'
+
+## References
 [1] McPherson, K., Steel, C. M., & Dixon, J. M. (2000). Breast cancer—epidemiology, risk factors, and genetics. BMJ, 321(7261), 624–628. Retrieved from https://research-repository.st-andrews.ac.uk/bitstream/handle/10023/4669/mcpherson2000bmj624.pdf?sequence=1
 
 [2] Breast Cancer Risk in Women. (n.d.). Retrieved from https://www.tandfonline.com/doi/full/10.2147/BCTT.S176070#d1e162
@@ -74,3 +90,6 @@ A Shiny application provides an interactive interface for users to test the mode
 [7] METABRIC Study: Molecular Taxonomy of Breast Cancer International Consortium. (n.d.). Retrieved from https://www.cbioportal.org/study/summary?id=brca_metabric
 
 [8] Office for National Statistics. (2013). National Population Projections, 2012-based Statistical Bulletin. Retrieved from https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationprojections/bulletins/nationalpopulationprojections/2013-11-06
+
+[9] National Cancer Institute. (2024, July 19). BRCA gene changes: Cancer risk and genetic testing. _Cancer.gov._ Retrieved from https://www.cancer.gov/about-cancer/causes-prevention/genetics/brca-fact-sheet
+
