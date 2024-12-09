@@ -66,8 +66,8 @@ healthy_data <- data.frame(
   INFERRED_MENOPAUSAL_STATE = ifelse(sample(20:100, num_healthy, replace = TRUE) > 50, 1, 0) # Postmenopausal state
 )
 
-# Assign cancer probabilities to BRCA carriers (90% probability if BRCA is present)
-healthy_data$CANCER <- rbinom(n = nrow(healthy_data), size = 1, prob = 0.9 * healthy_data$BRCA_GENE)
+# Assign cancer probabilities to BRCA carriers (60% probability if BRCA is present)
+healthy_data$CANCER <- rbinom(n = nrow(healthy_data), size = 1, prob = 0.6 * healthy_data$BRCA_GENE)
 
 # Combine the merged data and the healthy data
 combined_data <- bind_rows(merged_data, healthy_data)
@@ -76,6 +76,7 @@ combined_data <- bind_rows(merged_data, healthy_data)
 set.seed(456)
 shuffled_data <- combined_data[sample(nrow(combined_data)), ]
 
+setwd('C:/Users/leahm/OneDrive/Documenten/GitHub/Project-BI')
 # Save the shuffled dataset to a CSV file
 write.csv(shuffled_data, "shuffled_combined_data.csv", row.names = FALSE)
 
@@ -110,7 +111,7 @@ model <- glm(CANCER ~ BRCA_GENE + AGE + INFERRED_MENOPAUSAL_STATE + HORMONE_THER
              data = train_data)
 
 # Save the shuffled dataset to a CSV file
-write_rds(model, file = file.path('C:/Users/wagne/Documents/UNI/MÀSTER/Q3/IB/PROJECTE',"logistic_model.rds"))
+write_rds(model, file = file.path('C:/Users/leahm/OneDrive/Documenten/GitHub/Project-BI',"logistic_model.rds"))
 
 # Predict probabilities on test set
 predictions <- predict(model, newdata = test_data, type = "response")

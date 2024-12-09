@@ -6,13 +6,9 @@ library(ggplot2)
 library(dplyr)
 library(readr)
 
-# Load the model data
-model_data <- read_csv("shuffled_combined_data.csv")
 
 # Pretrained logistic regression model
-model <- glm(CANCER ~ BRCA_GENE + INFERRED_MENOPAUSAL_STATE + HORMONE_THERAPY + AGE, 
-             family = binomial, 
-             data = model_data)
+model <- read_rds("logistic_model.rds")
 
 # Prediction endpoint
 #* @param BRCA_GENE The state of the BRCA gene (1 for mutated, 0 for not mutated)
@@ -57,27 +53,24 @@ function(BRCA_GENE, INFERRED_MENOPAUSAL_STATE, HORMONE_THERAPY) {
     return(list(error = "BRCA_GENE, INFERRED_MENOPAUSAL_STATE, and HORMONE_THERAPY parameters are required."))
   }
   
-  # Filter the data based on the input parameters
-  filtered_data <- model_data %>%
-    filter(
-      BRCA_GENE == as.numeric(BRCA_GENE),
-      INFERRED_MENOPAUSAL_STATE == as.numeric(INFERRED_MENOPAUSAL_STATE),
-      HORMONE_THERAPY == as.numeric(HORMONE_THERAPY)
-    )
+  # Generate the plot for the specified range of ages
+  ages <- seq(20, 100, by = 5)  # Define the age range (20 to 100 with steps of 5)
   
-  # If no data matches the filter, return an error
-  if (nrow(filtered_data) == 0) {
-    res$status <- 400
-    return(list(error = "No data matches the provided parameters."))
-  }
+  # Create a data frame for predictions
+  prediction_data <- data.frame(
+    AGE = ages,
+    BRCA_GENE = as.numeric(BRCA_GENE),
+    INFERRED_MENOPAUSAL_STATE = as.numeric(INFERRED_MENOPAUSAL_STATE),
+    HORMONE_THERAPY = as.numeric(HORMONE_THERAPY)
+  )
   
-  # Predict cancer probabilities for the filtered data
-  filtered_data$CANCER_PROBABILITY <- predict(model, newdata = filtered_data, type = "response")
+  # Predict cancer probabilities for the specified age range
+  prediction_data$CANCER_PROBABILITY <- predict(model, newdata = prediction_data, type = "response")
   
   # Generate the plot
-  plot <- ggplot(filtered_data, aes(x = AGE, y = CANCER_PROBABILITY)) +
-    geom_point(color = "blue", size = 2) +  
-    geom_smooth(color = "black", size = 0.8) +  
+  plot <- ggplot(prediction_data, aes(x = AGE, y = CANCER_PROBABILITY)) +
+    geom_line(color = "blue", size = 1.2) +  # Smooth line to visualize trends
+    geom_point(color = "blue", size = 3) +   # Highlight points for each age step
     labs(
       title = "Probability of Breast Cancer by Age",
       x = "Age",
@@ -85,18 +78,14 @@ function(BRCA_GENE, INFERRED_MENOPAUSAL_STATE, HORMONE_THERAPY) {
     ) +
     theme_minimal() +
     theme(
-      axis.title.x = element_text(face = "bold", size = 12),
+      axis.title.x = element_text(size = 12),
       axis.title.y = element_text(size = 12)
     ) +
     scale_y_continuous(limits = c(0, 1))  # Limit the Y-axis from 0 to 1
   
-  # Render the graphic directly as a PNG image
-  tmp_file <- tempfile(fileext = ".png")
-  png(tmp_file, width = 800, height = 600, units = "px", res = 72)
   print(plot)
-  dev.off()
+
   
-  # Read the image and send it as a reply
-  readBin(tmp_file, "raw", n = file.info(tmp_file)$size)
+
 }
 
