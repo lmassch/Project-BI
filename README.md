@@ -71,8 +71,13 @@ All files are all in the main folder, which contains:
 * Shuffled_combined_daat.csv: Datafile with dataset containing shuffled records of healthy controls and cancer patients. The dataset was generated, divided in train and test data and used to train the model in _Database+Trainingmodel[1].R_.
 
 ## Practical example
+For our practical example, we are going to use two functions. The first will predict the probability of developing cancer throughout your life at a specific age, and the second will be a graph that shows, according to certain conditions, what the chances of having cancer are as a function of age.
+For the first function, called "/predit" for cancer, we must click on the blue "GET" icon or click on the arrow to open the tab. Then you have to activate the "TRY OUT" button so that the API lets you enter the values (otherwise there will be a deny symbol with the mouse when you approach the text blocks). After we have activated the blocks, we proceed to fill in the data. It is important to note that all values, except age, are binary, so placing different values between one and zero will give results outside the model or an error. 
 
-'Text Gabriel'
+For the first prediction we are going to place a value of 1 for BRCA_GENE (indicating that this gene is mutated), a value of 0 for HORMONE_THERAPY (indicating that he is not receiving hormonal treatment), a value of 1 INFERRED_MENOPAUSAL_STATE (indicating that he is in the menopause stage) and a value of 60 years. 
+We proceed to click on the "Execute" button and the model will calculate the probability. Two results will be shown, the first will be the probability of the age we enter and the second a category, which takes in that if you have more than a 60% chance of having cancer, it is considered that you have the disease.  
+For the second function, called /cancer-probability-plot, we expand the second tab. You must also activate the button on the right that says "TRY OUT" to activate the text boxes. We fill all the values with zeros or one, depending on the conditions we want to create. Finally, we click on run and the model will plot a graph of the probability of having cancer as a function of age, considering the initial conditions. As an example, we take all the values at zero and compare that graph with all the values at 1. 
+
 
 ## References
 [1] McPherson, K., Steel, C. M., & Dixon, J. M. (2000). Breast cancer—epidemiology, risk factors, and genetics. BMJ, 321(7261), 624–628. Retrieved from https://research-repository.st-andrews.ac.uk/bitstream/handle/10023/4669/mcpherson2000bmj624.pdf?sequence=1
