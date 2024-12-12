@@ -63,7 +63,6 @@ A Shiny application provides an interactive interface for users to test the mode
 
 All files are all in the main folder, which contains:
 * Database+Trainingmodel[1].R: Complete R script used to prepare the datasets and train the model. The dataset in divided in a train and test set within the file.
-* Shiny_BRCA.R: Shiny application to test the predictive model.
 * api.R: R script to run the API for model predictions based on a new patient input.
 * data_clinical_patient.txt: Datafile containing the patient atributes (e.g. age of diagnosis) of the METABRIC dataset, used in _Database+Trainingmodel[1].R_ to build the cancer patient dataset.
 * data_clinical_patient.txt: Datafile containing the sample atributes (e.g. oncotree code) of the METABRIC dataset, used in _Database+Trainingmodel[1].R_ to build the cancer patient dataset.
