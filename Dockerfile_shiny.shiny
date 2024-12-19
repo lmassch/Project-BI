@@ -1,0 +1,17 @@
+# Dockerfile.shiny
+
+FROM rocker/shiny:latest
+
+WORKDIR /srv/shiny-server
+
+# Install httr package for API calls
+RUN R -e "install.packages(c('httr', 'shiny', 'jsonlite', 'ggplot2', 'callr', 'shinythemes'))"
+
+# Copy the Shiny app
+COPY appShiny.R /srv/shiny-server/app.R
+
+# Expose the Shiny app port
+EXPOSE 3838
+
+# Run the Shiny app
+CMD ["shiny-server"]

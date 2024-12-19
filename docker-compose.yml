@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Plumber.api
+    container_name: api-container
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./API_everything.R:/app/API_everything.R
+      - ./Liver_disease_data.csv:/data/Liver_disease_data.csv
+    networks:
+      - app-network
+
+  shiny:
+    build:
+      context: .
+      dockerfile: Dockerfile_shiny.shiny
+    container_name: shiny-container
+    ports:
+      - "3838:3838"
+    networks:
+      - app-network
+    depends_on:
+      - api
+
+networks:
+  app-network:
+    driver: bridge
